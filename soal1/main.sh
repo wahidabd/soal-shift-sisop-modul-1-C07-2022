@@ -22,7 +22,7 @@ func_login(){
 
 		printf "Enter command [dl n or att]: "
 		read command
-		if [[ "$commant" -eq "att" ]]
+		if [[ $command == att ]]
 		then
 			func_att
 		fi
