@@ -15,12 +15,18 @@ func_check_password(){
 }
 
 func_login(){
-	local locUser=/home/wahid/sisop/modul1/users/user.txt
-	local locLog=/home/wahid/sisop/modul1/log.txt
-
 	if grep -q $password "$locUser"
 	then
 		echo "$calendar $time LOGIN:INFO User $username logged in" >> $locLog
+		echo "Login success"
+
+		printf "Enter command [dl n or att]: "
+		read command
+		if [[ "$commant" -eq "att" ]]
+		then
+			func_att
+		fi
+
 	else
 		fail="Failed login attemp on user $username"
 		echo $fail
@@ -30,7 +36,16 @@ func_login(){
 
 }
 
-func_
+func_att(){
+	awk '
+	BEGIN {print "Count login attemps"}
+	/LOGIN/ {++n}
+	END {print "Login attemps:", n}' $locLog
+}
+
+locUser=/home/wahid/sisop/modul1/users/user.txt
+locLog=/home/wahid/sisop/modul1/log.txt
+
 
 calendar=$(date +%D)
 time=$(date +%T)
