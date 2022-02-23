@@ -5,5 +5,5 @@
 NRP | NAMA
 ------------- | -------------
 5025201039  | Abd. Wahid
-50252010    | Rendy D.F
+5025201056    | Rendi Dwi Francisko
 50252010    | Kadek Ari Dharmika
