@@ -20,11 +20,16 @@ func_login(){
 		echo "$calendar $time LOGIN:INFO User $username logged in" >> $locLog
 		echo "Login success"
 
-		printf "Enter command [dl n or att]: "
+		printf "Enter command [dl or att]: "
 		read command
 		if [[ $command == att ]]
 		then
 			func_att
+		elif [[ $command == dl ]]
+		then
+			func_dl_pic
+		else
+			echo "Not found"
 		fi
 
 	else
@@ -36,6 +41,39 @@ func_login(){
 
 }
 
+func_dl_pic(){
+	printf "Enter number: "
+	read n
+
+	if [[ ! -f "$folder.zip" ]]
+	then
+		mkdir $folder
+		count=0
+		func_start_dl
+	else
+		func_unzip
+	fi
+
+}
+
+func_unzip(){
+	unzip -P $password $folder.zip
+	rm $folder.zip
+
+	count=$(find $folder -type f | wc -l)
+	func_start_dl
+}
+
+func_start_dl(){
+	for(( i=$count+1; i<=$n+$count; i++ ))
+	do
+		wget https://loremflickr.com/320/240 -O $folder/PIC_$i.jpg
+	done
+
+	zip --password $password -r $folder.zip $folder/
+	rm -rf $folder
+}
+
 func_att(){
 	awk '
 	BEGIN {print "Count login attemps"}
@@ -43,10 +81,8 @@ func_att(){
 	END {print "Login attemps:", n}' $locLog
 }
 
-locUser=/home/wahid/sisop/modul1/users/user.txt
-locLog=/home/wahid/sisop/modul1/log.txt
 
-
+# main
 calendar=$(date +%D)
 time=$(date +%T)
 
@@ -56,4 +92,10 @@ read username
 printf "Enter your password: "
 read -s password
 
+# deff dir
+folder=$(date +%Y-%m-%d)_$username
+locLog=/home/wahid/sisop/modul1/log.txt
+locUser=/home/wahid/sisop/modul1/users/user.txt
+
+#call fun check password
 func_check_password
