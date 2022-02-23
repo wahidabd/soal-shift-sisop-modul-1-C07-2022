@@ -24,8 +24,8 @@ func_check_password() {
 
     else
       	echo "Register successfull!"
-      	echo REGISTER:INFO User $username registered successfully >> $locLog
-      	echo $calendar $time $username $password >> $locUser
+      	echo $calendar $time REGISTER:INFO User $username registered successfully >> $locLog
+      	echo $username $password >> $locUser
     fi
 
 

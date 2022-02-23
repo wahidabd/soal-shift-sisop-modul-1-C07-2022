@@ -8,14 +8,13 @@ func_check_password(){
 	elif [[ "$password" != *[[:upper:]]* || "$password" != *[[:lower:]]* || "$password" != *[0-9]* ]]
 	then
        		echo "Password must be at least upper, lower and number!"
-
     	else
 		func_login
 	fi
 }
 
 func_login(){
-	if grep -q $password "$locUser"
+	if grep -q -e $username -e $password "$locUser"
 	then
 		echo "$calendar $time LOGIN:INFO User $username logged in" >> $locLog
 		echo "Login success"
@@ -38,7 +37,6 @@ func_login(){
 
 		echo "$calendar $time LOGIN:ERROR $fail" >> $locLog
 	fi
-
 }
 
 func_dl_pic(){
@@ -75,10 +73,7 @@ func_start_dl(){
 }
 
 func_att(){
-	awk '
-	BEGIN {print "Count login attemps"}
-	/LOGIN/ {++n}
-	END {print "Login attemps:", n}' $locLog
+	awk -v user="$username" 'BEGIN {count=0} $5 == user || $9 == user {count++} END {print (count)}' $locLog
 }
 
 
