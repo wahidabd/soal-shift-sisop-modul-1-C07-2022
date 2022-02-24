@@ -1,14 +1,20 @@
 func_check_password() {
   local lengthPassword=${#password}
-  local locUser=/home/wahid/sisop/modul1/users/user.txt
-  local locLog=/home/wahid/sisop/modul1/log.txt
+  local locFolder=/home/wahid/sisop/modul1
+  local locUsers=$locFolder/users
 
-    if grep -q $username "$locUser"
+    if [[ ! -d "$locUsers" ]]
+    then
+	mkdir $locUsers
+    fi
+
+
+    if grep -q $username "$locUsers/user.txt"
     then
 	existsUser="User already exists"
 
 	echo $existsUser
-	echo $calendar $time REGISTER:ERROR $existsUser >> $locLog
+	echo $calendar $time REGISTER:ERROR $existsUser >> $locFolder/log.txt
 
     elif [[ $password == $username ]]
     then
@@ -24,8 +30,8 @@ func_check_password() {
 
     else
       	echo "Register successfull!"
-      	echo $calendar $time REGISTER:INFO User $username registered successfully >> $locLog
-      	echo $username $password >> $locUser
+      	echo $calendar $time REGISTER:INFO User $username registered successfully >> $locFolder/log.txt
+      	echo $username $password >> $locUsers/user.txt
     fi
 
 
