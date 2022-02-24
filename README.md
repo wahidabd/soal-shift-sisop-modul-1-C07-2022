@@ -1,9 +1,5 @@
 # soal-shift-sisop-modul-1-C07-2022
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 526c9cad4e68ae5588de36c1f623f9ad7dee59ff
 ## Anggota Kelompok ##
 
 NRP | NAMA
