@@ -17,7 +17,7 @@ func_login(){
 	checkUser=$(egrep $username "$locUser")
 	checkPass=$(egrep $password "$locUser")
 
-	if [[ ! -f "$locUser" || ! -d "/home/wahid/sisop/modul1/users" ]]
+	if [[ ! -f "$locUser" ]]
 	then
 		echo "no user registered yet"
 	else
