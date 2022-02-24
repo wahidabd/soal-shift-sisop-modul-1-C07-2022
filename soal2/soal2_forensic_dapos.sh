@@ -1,8 +1,16 @@
 #!/bin/bash
-locFolder=/home/wahid/sisop/modul1/forensic_log_website_daffainfo_log
+locFolder=/home/wahid/sisop/modul1
 locLog=$locFolder/log_website_daffainfo.log
-locRata=$locFolder/ratarata.txt
-locResult=$locFolder/result.txt
+folder=$locFolder/forensic_log_website_daffainfo_log
+
+#create dir
+if [[ -d "$folder" ]]
+then
+	rm -rf $folder
+	mkdir $folder
+else
+	mkdir $folder
+fi
 
 #B
 cat $locLog | awk -F: '{gsub(/"/, "", $3)
@@ -12,9 +20,9 @@ cat $locLog | awk -F: '{gsub(/"/, "", $3)
 			count++
 			res+=arr[i]
 		}
-		res/=count
+		res=res/count
 		printf "rata rata serangan perjam adalah sebanyak %.3f request per jam\n\n", res
-	}' >> $locRata
+	}' >> $folder/ratarata.txt
 
 #C
 cat $locLog | awk -F: '{gsub(/"/, "", $1)
@@ -29,11 +37,11 @@ cat $locLog | awk -F: '{gsub(/"/, "", $1)
 			}
 		}
 		print "yang paling banyak mengakses server adalah: " target " sebanyak " max " request\n"
-	}' >> $locResult
+	}' >> $folder/result.txt
 
 #D
 cat $locLog | awk '/curl/ {++n} END {
-print "ada " n " request yang menggunakan curl sebagai user-agent\n"}' >> $locResult
+print "ada " n " request yang menggunakan curl sebagai user-agent\n"}' >> $folder/result.txt
 
 #E
 cat $locLog | awk -F: '/2022:02/ {gsub(/"/, "", $1)
@@ -42,4 +50,4 @@ cat $locLog | awk -F: '/2022:02/ {gsub(/"/, "", $1)
 		for (i in arr){
 			print i " Jam 2 Pagi"
 		}
-	}' >> $locResult
+	}' >> $folder/result.txt
