@@ -16,7 +16,7 @@ func_check_password(){
 func_login(){
 	if [[ ! -f "$locUser" ]]
 	then
-		echo "no user registered yet"
+		echo "No user registered yet"
 	else
 		if grep -q -w "$username $password" "$locUser"
 		then

@@ -25,11 +25,10 @@ cat $locLog | awk -F: '{gsub(/"/, "", $3)
 	arr[$3]++}
 	END {
 		for (i in arr) {
-			count++
 			res+=arr[i]
 		}
-		res=res/count
-		printf "rata rata serangan perjam adalah sebanyak %.3f request per jam\n\n", res
+		res=res/12
+		printf "rata rata serangan perjam adalah sebanyak %f request per jam\n\n", res
 	}' >> $folder/ratarata.txt
 
 #C
