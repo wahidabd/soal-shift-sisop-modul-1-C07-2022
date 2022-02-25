@@ -3,7 +3,15 @@ locFolder=/home/wahid/sisop/modul1
 locLog=$locFolder/log_website_daffainfo.log
 folder=$locFolder/forensic_log_website_daffainfo_log
 
+#check user
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Please run as root"
+	exit 1
+fi
+
 #create dir
+# A
 if [[ -d "$folder" ]]
 then
 	rm -rf $folder

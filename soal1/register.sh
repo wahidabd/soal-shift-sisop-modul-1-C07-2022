@@ -9,7 +9,7 @@ func_check_password() {
     fi
 
 
-    if grep -q $username "$locUsers/user.txt"
+    if grep -q -w "$username" "$locUsers/user.txt"
     then
 	existsUser="User already exists"
 
@@ -47,4 +47,10 @@ read username
 printf "Enter yout password: "
 read -s password
 
-func_check_password
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Please run as root"
+	exit 1
+else
+	func_check_password
+fi

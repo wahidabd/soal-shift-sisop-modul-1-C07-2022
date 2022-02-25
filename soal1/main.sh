@@ -14,14 +14,11 @@ func_check_password(){
 }
 
 func_login(){
-	checkUser=$(egrep $username "$locUser")
-	checkPass=$(egrep $password "$locUser")
-
 	if [[ ! -f "$locUser" ]]
 	then
 		echo "no user registered yet"
 	else
-		if [[ -n "$checkUser" ]] && [[ -n "$checkPass" ]]
+		if grep -q -w "$username $password" "$locUser"
 		then
 			echo "$calendar $time LOGIN:INFO User $username logged in" >> $locLog
 			echo "Login success"
@@ -76,7 +73,7 @@ func_start_dl(){
 		wget https://loremflickr.com/320/240 -O $folder/PIC_$i.jpg
 	done
 
-	zip --password $password -r $folder.zip $folder/
+	zip -P $password -r $folder.zip $folder/
 	rm -rf $folder
 }
 
@@ -105,5 +102,10 @@ folder=$(date +%Y-%m-%d)_$username
 locLog=/home/wahid/sisop/modul1/log.txt
 locUser=/home/wahid/sisop/modul1/users/user.txt
 
-#call fun check password
-func_check_password
+if [[ $(id -u) -ne 0 ]]
+then
+	echo "Please run as root"
+	exit 1
+else
+	func_check_password
+fi
