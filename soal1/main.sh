@@ -18,36 +18,38 @@ func_login(){
 	then
 		echo "No user registered yet"
 	else
-		if grep -q -w "$username $password" "$locUser"
+		if grep -q -w "$username" "$locUser"
 		then
-			echo "$calendar $time LOGIN:INFO User $username logged in" >> $locLog
-			echo "Login success"
+			if grep -q -w "$username $password" "$locUser"
+			then
+				echo "$calendar $time LOGIN:INFO User $username logged in" >> $locLog
+				echo "Login success"
 
-			printf "Enter command [dl or att]: "
-			read command
-			if [[ $command == att ]]
-			then
-				func_att
-			elif [[ $command == dl ]]
-			then
-				func_dl_pic
+				printf "Enter command [dl or att]: "
+				read command total
+				if [[ $command == att ]]
+				then
+					func_att
+				elif [[ $command == dl ]] && [[  -n "$total" ]]
+				then
+					func_dl_pic
+				else
+					echo "Command not found"
+				fi
+
 			else
-				echo "Not found"
+				fail="Failed login attemp on user $username"
+				echo $fail
+
+				echo "$calendar $time LOGIN:ERROR $fail" >> $locLog
 			fi
-
 		else
-			fail="Failed login attemp on user $username"
-			echo $fail
-
-			echo "$calendar $time LOGIN:ERROR $fail" >> $locLog
+			echo "User not found, please register!"
 		fi
 	fi
 }
 
 func_dl_pic(){
-	printf "Enter number: "
-	read n
-
 	if [[ ! -f "$folder.zip" ]]
 	then
 		mkdir $folder
@@ -68,7 +70,7 @@ func_unzip(){
 }
 
 func_start_dl(){
-	for(( i=$count+1; i<=$n+$count; i++ ))
+	for(( i=$count+1; i<=$total+$count; i++ ))
 	do
 		wget https://loremflickr.com/320/240 -O $folder/PIC_$i.jpg
 	done
@@ -82,7 +84,7 @@ func_att(){
 	then
 		echo "Log not found"
 	else
-		awk -v user="$username" 'BEGIN {count=0} $5 == user || $9 == user {count++} END {print (count)}' $locLog
+		awk -v user="$username" 'BEGIN {count=0} $5 == user || $9 == user {count++} END {print (count-1)}' $locLog
 	fi
 }
 
