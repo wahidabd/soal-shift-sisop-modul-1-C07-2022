@@ -7,3 +7,5 @@ NRP | NAMA
 5025201039  | Abd. Wahid
 50252010    | Rendy D.F
 50252010    | Kadek Ari Dharmika
+
+# Inginku berkata kasar
