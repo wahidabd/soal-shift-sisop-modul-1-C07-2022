@@ -8,4 +8,3 @@ NRP | NAMA
 50252010    | Rendy D.F
 50252010    | Kadek Ari Dharmika
 
-# Inginku berkata kasar
